@@ -1,0 +1,13 @@
+## Interface: 20100
+
+## Title: tekability
+## Notes: Simple item durability readout in the character frame.
+## Author: Tekkub Stoutwrithe
+## Version: Alpha
+## X-Credits: Fizzle by phyber
+## X-Website: http://code.google.com/p/tekkub-wow/
+## X-Email: tekkub-wow@googlegroups.com
+## X-Category: Inventory
+
+tinyGratuity.lua
+tekability.lua
