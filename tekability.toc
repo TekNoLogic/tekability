@@ -9,5 +9,9 @@
 ## X-Email: tekkub-wow@googlegroups.com
 ## X-Category: Inventory
 
+## LoadManagers: AddonLoader
+## X-LoadOn-Hooks: CharacterFrame_OnShow
+## X-LoadOn-CharacterFrame_OnShow: LoadAddOn('tekability')
+
 tinyGratuity.lua
 tekability.lua

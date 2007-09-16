@@ -82,3 +82,6 @@ frame:SetScript("OnEvent", function()
 	end
 end)
 
+
+-- Handle LoD
+if CharacterFrame:IsVisible() then frame:GetScript("OnEvent")() end
