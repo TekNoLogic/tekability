@@ -13,5 +13,4 @@
 ## X-LoadOn-Hooks: CharacterFrame_OnShow
 ## X-LoadOn-CharacterFrame_OnShow: LoadAddOn('tekability')
 
-tinyGratuity.lua
 tekability.lua
