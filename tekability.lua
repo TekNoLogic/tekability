@@ -2,12 +2,9 @@
 
 local SLOTTYPES, SLOTIDS = {"Head", "Shoulder", "Chest", "Waist", "Legs", "Feet", "Wrist", "Hands", "MainHand", "SecondaryHand", "Ranged"}, {}
 for _,slot in pairs(SLOTTYPES) do SLOTIDS[slot] = GetInventorySlotInfo(slot .. "Slot") end
-local FINDSTRING = string.gsub(DURABILITY_TEMPLATE, "%%[^%s]+", "(.+)")
 local FONTSIZE = 12
 local fontstrings = {}
-local _G = getfenv(0)
 local frame = CreateFrame("Frame")
-local tip = CreateFrame("GameTooltip")
 
 
 local function RYGColorGradient(perc)
