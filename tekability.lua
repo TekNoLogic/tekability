@@ -34,8 +34,6 @@ for _,slot in ipairs(SLOTTYPES) do
 
 	local fstr = gslot:CreateFontString("Character"..slot.."SlotDurability", "OVERLAY")
 	local font, _, flags = NumberFontNormal:GetFont()
-	fstr:SetFont(font, FONTSIZE, flags)
-	fstr:SetPoint("CENTER", gslot, "BOTTOM", 0, 8)
 	fontstrings[slot] = fstr
 end
 
@@ -51,7 +49,16 @@ CharacterFrame:HookScript("OnHide", function()
 end)
 
 
-frame:SetScript("OnEvent", function()
+frame:SetScript("OnEvent", function(self, event)
+	if event == "ADDON_LOADED" then
+		for i,fstr in pairs(fontstrings) do
+			-- Re-apply the font, so that we catch any changes to NumberFontNormal by addons like ClearFont
+			local font, _, flags = NumberFontNormal:GetFont()
+			fstr:SetFont(font, FONTSIZE, flags)
+		end
+		return
+	end
+
 	if not CharacterFrame:IsVisible() then return end
 
 	for _,slot in ipairs(SLOTTYPES) do
@@ -67,6 +74,7 @@ frame:SetScript("OnEvent", function()
 	end
 end)
 
+frame:RegisterEvent("ADDON_LOADED")
 
 -- Handle LoD
 if CharacterFrame:IsVisible() then frame:GetScript("OnEvent")() end
