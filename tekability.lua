@@ -10,21 +10,13 @@ local frame = CreateFrame("Frame")
 local tip = CreateFrame("GameTooltip")
 
 
-local function ColorGradient(perc, ...)
-	if perc >= 1 then
-		local r, g, b = select(select('#', ...) - 2, ...)
-		return r, g, b
-	elseif perc <= 0 then
-		local r, g, b = ...
-		return r, g, b
-	end
-
-	local num = select('#', ...) / 3
-
-	local segment, relperc = math.modf(perc*(num-1))
-	local r1, g1, b1, r2, g2, b2 = select((segment*3)+1, ...)
-
-	return r1 + (r2-r1)*relperc, g1 + (g2-g1)*relperc, b1 + (b2-b1)*relperc
+local function RYGColorGradient(perc)
+	local relperc = perc*2 % 1
+	if perc <= 0 then       return           1,       0, 0
+	elseif perc < 0.5 then  return           1, relperc, 0
+	elseif perc == 0.5 then return           1,       1, 0
+	elseif perc < 1.0 then  return 1 - relperc,       1, 0
+	else                    return           0,       1, 0 end
 end
 
 
@@ -66,7 +58,7 @@ frame:SetScript("OnEvent", function(self, event)
 		local text, v1, v2 = "", GetInventoryItemDurability(SLOTIDS[slot])
 
 		if v1 and v2 and v2 ~= 0 then
-			str:SetTextColor(ColorGradient(v1/v2, 1,0,0, 1,1,0, 0,1,0))
+			str:SetTextColor(RYGColorGradient(v1/v2))
 			text = string.format("%d%%", v1/v2*100)
 		end
 
