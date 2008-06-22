@@ -23,6 +23,8 @@ for _,slot in ipairs(SLOTTYPES) do
 
 	local fstr = gslot:CreateFontString("Character"..slot.."SlotDurability", "OVERLAY")
 	local font, _, flags = NumberFontNormal:GetFont()
+	fstr:SetFont(font, FONTSIZE, flags)
+	fstr:SetPoint("CENTER", gslot, "BOTTOM", 0, 8)
 	fontstrings[slot] = fstr
 end
 
