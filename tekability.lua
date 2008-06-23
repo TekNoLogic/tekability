@@ -4,7 +4,7 @@ local SLOTTYPES, SLOTIDS = {"Head", "Shoulder", "Chest", "Waist", "Legs", "Feet"
 for _,slot in pairs(SLOTTYPES) do SLOTIDS[slot] = GetInventorySlotInfo(slot .. "Slot") end
 local FONTSIZE = 12
 local fontstrings = {}
-local frame = CreateFrame("Frame")
+local frame = CreateFrame("Frame", nil, CharacterFrame)
 
 
 local function RYGColorGradient(perc)
@@ -29,18 +29,7 @@ for _,slot in ipairs(SLOTTYPES) do
 end
 
 
-CharacterFrame:HookScript("OnShow", function()
-	frame:RegisterEvent("UNIT_INVENTORY_CHANGED")
-	frame:GetScript("OnEvent")()
-end)
-
-
-CharacterFrame:HookScript("OnHide", function()
-	frame:UnregisterEvent("UNIT_INVENTORY_CHANGED")
-end)
-
-
-frame:SetScript("OnEvent", function(self, event)
+function frame:OnEvent(event)
 	if event == "ADDON_LOADED" then
 		for i,fstr in pairs(fontstrings) do
 			-- Re-apply the font, so that we catch any changes to NumberFontNormal by addons like ClearFont
@@ -63,9 +52,17 @@ frame:SetScript("OnEvent", function(self, event)
 
 		str:SetText(text)
 	end
+end
+
+
+frame:SetScript("OnEvent", frame.OnEvent)
+frame:RegisterEvent("ADDON_LOADED")
+frame:SetScript("OnHide", function() frame:UnregisterEvent("UNIT_INVENTORY_CHANGED") end)
+frame:SetScript("OnShow", function()
+	frame:RegisterEvent("UNIT_INVENTORY_CHANGED")
+	frame:GetScript("OnEvent")("UNIT_INVENTORY_CHANGED")
 end)
 
-frame:RegisterEvent("ADDON_LOADED")
 
 -- Handle LoD
-if CharacterFrame:IsVisible() then frame:GetScript("OnEvent")() end
+if CharacterFrame:IsVisible() then frame:GetScript("OnShow")() end
