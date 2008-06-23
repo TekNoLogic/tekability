@@ -3,7 +3,6 @@
 local SLOTTYPES, SLOTIDS = {"Head", "Shoulder", "Chest", "Waist", "Legs", "Feet", "Wrist", "Hands", "MainHand", "SecondaryHand", "Ranged"}, {}
 for _,slot in pairs(SLOTTYPES) do SLOTIDS[slot] = GetInventorySlotInfo(slot .. "Slot") end
 local FONTSIZE = 12
-local fontstrings = {}
 local frame = CreateFrame("Frame", nil, CharacterFrame)
 
 
@@ -17,16 +16,19 @@ local function RYGColorGradient(perc)
 end
 
 
-for _,slot in ipairs(SLOTTYPES) do
-	local gslot = _G["Character"..slot.."Slot"]
-	assert(gslot, "Character"..slot.."Slot does not exist")
+local fontstrings = setmetatable({}, {
+	__index = function(t,i)
+		local gslot = _G["Character"..i.."Slot"]
+		assert(gslot, "Character"..i.."Slot does not exist")
 
-	local fstr = gslot:CreateFontString("Character"..slot.."SlotDurability", "OVERLAY")
-	local font, _, flags = NumberFontNormal:GetFont()
-	fstr:SetFont(font, FONTSIZE, flags)
-	fstr:SetPoint("CENTER", gslot, "BOTTOM", 0, 8)
-	fontstrings[slot] = fstr
-end
+		local fstr = gslot:CreateFontString(nil, "OVERLAY")
+		local font, _, flags = NumberFontNormal:GetFont()
+		fstr:SetFont(font, FONTSIZE, flags)
+		fstr:SetPoint("CENTER", gslot, "BOTTOM", 0, 8)
+		t[i] = fstr
+		return fstr
+	end,
+})
 
 
 function frame:OnEvent(event)
@@ -42,15 +44,16 @@ function frame:OnEvent(event)
 	if not CharacterFrame:IsVisible() then return end
 
 	for _,slot in ipairs(SLOTTYPES) do
-		local str = fontstrings[slot]
-		local text, v1, v2 = "", GetInventoryItemDurability(SLOTIDS[slot])
+		local v1, v2 = GetInventoryItemDurability(SLOTIDS[slot])
 
 		if v1 and v2 and v2 ~= 0 then
+			local str = fontstrings[slot]
 			str:SetTextColor(RYGColorGradient(v1/v2))
-			text = string.format("%d%%", v1/v2*100)
+			str:SetText(string.format("%d%%", v1/v2*100))
+		else
+			local str = rawget(fontstrings, slot)
+			if str then str:SetText(nil) end
 		end
-
-		str:SetText(text)
 	end
 end
 
