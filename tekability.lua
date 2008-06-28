@@ -1,8 +1,7 @@
 
 
-local SLOTTYPES, SLOTIDS = {"Head", "Shoulder", "Chest", "Waist", "Legs", "Feet", "Wrist", "Hands", "MainHand", "SecondaryHand", "Ranged"}, {}
-for _,slot in pairs(SLOTTYPES) do SLOTIDS[slot] = GetInventorySlotInfo(slot .. "Slot") end
-local FONTSIZE = 12
+local SLOTIDS, FONTSIZE = {}, 12
+for _,slot in pairs({"Head", "Shoulder", "Chest", "Waist", "Legs", "Feet", "Wrist", "Hands", "MainHand", "SecondaryHand", "Ranged"}) do SLOTIDS[slot] = GetInventorySlotInfo(slot .. "Slot") end
 local frame = CreateFrame("Frame", nil, CharacterFrame)
 
 
@@ -43,8 +42,8 @@ function frame:OnEvent(event)
 
 	if not CharacterFrame:IsVisible() then return end
 
-	for _,slot in ipairs(SLOTTYPES) do
-		local v1, v2 = GetInventoryItemDurability(SLOTIDS[slot])
+	for slot,id in pairs(SLOTIDS) do
+		local v1, v2 = GetInventoryItemDurability(id)
 
 		if v1 and v2 and v2 ~= 0 then
 			local str = fontstrings[slot]
