@@ -4,6 +4,7 @@ local SLOTIDS, FONTSIZE = {}, 12
 for _,slot in pairs({"Head", "Shoulder", "Chest", "Waist", "Legs", "Feet", "Wrist", "Hands", "MainHand", "SecondaryHand", "Ranged"}) do SLOTIDS[slot] = GetInventorySlotInfo(slot .. "Slot") end
 local frame = CreateFrame("Frame", nil, CharacterFrame)
 local dataobj = LibStub:GetLibrary("LibDataBroker-1.1"):NewDataObject("tekability", {text = "100%"})
+local about = LibStub("tekKonfig-AboutPanel").new(nil, "tekability")
 
 
 local function RYGColorGradient(perc)
