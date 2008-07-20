@@ -32,8 +32,10 @@ local fontstrings = setmetatable({}, {
 })
 
 
-function frame:OnEvent(event, addon)
-	if event == "ADDON_LOADED" and addon:lower() ~= "tekability" then
+function frame:OnEvent(event, arg1)
+	if event == "UNIT_INVENTORY_CHANGED" and arg1 ~= "player" then return end
+
+	if event == "ADDON_LOADED" and arg1:lower() ~= "tekability" then
 		for i,fstr in pairs(fontstrings) do
 			-- Re-apply the font, so that we catch any changes to NumberFontNormal by addons like ClearFont
 			local font, _, flags = NumberFontNormal:GetFont()
@@ -41,8 +43,6 @@ function frame:OnEvent(event, addon)
 		end
 		return
 	end
-
-	if not CharacterFrame:IsVisible() then return end
 
 	local s1, s2 = 0, 0
 	for slot,id in pairs(SLOTIDS) do
