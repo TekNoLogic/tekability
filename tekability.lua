@@ -44,12 +44,12 @@ function frame:OnEvent(event, arg1)
 		return
 	end
 
-	local s1, s2 = 0, 0
+	local min = 1
 	for slot,id in pairs(SLOTIDS) do
 		local v1, v2 = GetInventoryItemDurability(id)
 
 		if v1 and v2 and v2 ~= 0 then
-			s1, s2 = s1 + v1, s2 + v2
+			min = math.min(v1/v2, min)
 			local str = fontstrings[slot]
 			str:SetTextColor(RYGColorGradient(v1/v2))
 			str:SetText(string.format("%d%%", v1/v2*100))
@@ -59,10 +59,8 @@ function frame:OnEvent(event, arg1)
 		end
 	end
 
-	if s2 > 0 then
-		local r,g,b = RYGColorGradient(s1/s2)
-		dataobj.text = string.format("|cff%02x%02x%02x%d%%", r*255, g*255, b*255, s1/s2*100)
-	else dataobj.text = "---" end
+	local r,g,b = RYGColorGradient(min)
+	dataobj.text = string.format("|cff%02x%02x%02x%d%%", r*255, g*255, b*255, min*100)
 end
 
 
