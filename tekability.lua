@@ -33,8 +33,6 @@ local fontstrings = setmetatable({}, {
 
 
 function frame:OnEvent(event, arg1)
-	if event == "UNIT_INVENTORY_CHANGED" and arg1 ~= "player" then return end
-
 	if event == "ADDON_LOADED" and arg1:lower() ~= "tekability" then
 		for i,fstr in pairs(fontstrings) do
 			-- Re-apply the font, so that we catch any changes to NumberFontNormal by addons like ClearFont
@@ -66,7 +64,7 @@ end
 
 frame:SetScript("OnEvent", frame.OnEvent)
 frame:RegisterEvent("ADDON_LOADED")
-frame:RegisterEvent("UNIT_INVENTORY_CHANGED")
+frame:RegisterEvent("UPDATE_INVENTORY_DURABILITY")
 
 
 ------------------------
