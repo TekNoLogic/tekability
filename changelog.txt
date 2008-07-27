@@ -1,2 +1,7 @@
+2.4.3.2-Beta
+    Hey look, when you use the right event, IT UPDATES CORRECTLY
+    Use min durability instead of average.
+    Make data refresh on every event, since we now (potentially) have an always-up frame
+
 2.4.2.1-Beta
     Initial release
