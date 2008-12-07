@@ -1,3 +1,6 @@
+3.0.3.4-Beta
+    Add "type" to LDB feed
+
 3.0.2.3-Beta
     Add icon to LDB feed
     Embed update
