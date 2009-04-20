@@ -1,3 +1,6 @@
+3.1.0.5-Beta
+    Fix AddonLoader condition
+
 3.0.3.4-Beta
     Add "type" to LDB feed
 
