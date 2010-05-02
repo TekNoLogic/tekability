@@ -1,3 +1,6 @@
+3.3.0.6-Release
+    No changes, just tagging as a stable release
+
 3.1.0.5-Beta
     Fix AddonLoader condition
 
