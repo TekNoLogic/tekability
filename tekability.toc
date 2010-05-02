@@ -3,7 +3,7 @@
 ## Title: tekability
 ## Notes: Simple item durability readout in the character frame.
 ## Author: Tekkub Stoutwrithe
-## Version: Alpha
+## Version: 3.3.0.6
 ## X-Website: http://www.tekkub.net/
 ## X-Email: tekkub-wow@googlegroups.com
 ## X-Category: Inventory
