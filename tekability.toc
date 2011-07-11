@@ -10,6 +10,7 @@
 ## X-Credits: Fizzle by phyber
 
 ## LoadManagers: AddonLoader
+## X-LoadOn-InterfaceOptions: tekability
 ## X-LoadOn-Execute: CreateFrame("Frame", nil, CharacterFrame):SetScript("OnShow", function(self) LoadAddOn('tekability'); self:SetScript("OnShow", nil) end)
 
 LibStub.lua
