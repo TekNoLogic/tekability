@@ -1,11 +1,23 @@
 
 
-local SLOTIDS, FONTSIZE = {}, 12
-for _,slot in pairs({"Head", "Shoulder", "Chest", "Waist", "Legs", "Feet", "Wrist", "Hands", "MainHand", "SecondaryHand"}) do SLOTIDS[slot] = GetInventorySlotInfo(slot .. "Slot") end
+local SLOTIDS, FONTSIZE, SLOTS = {}, 12, {
+	"Head", "Shoulder", "Chest", "Waist", "Legs", "Feet", "Wrist", "Hands",
+	"MainHand", "SecondaryHand",
+}
+for _,slot in pairs(SLOTS) do
+	SLOTIDS[slot] = GetInventorySlotInfo(slot .. "Slot")
+end
 local frame = CreateFrame("Frame", nil, CharacterFrame)
-local dataobj = LibStub:GetLibrary("LibDataBroker-1.1"):NewDataObject("tekability", {type = "data source", icon = "Interface\\Minimap\\Tracking\\Repair", text = "100%"})
+local ldb = LibStub:GetLibrary("LibDataBroker-1.1")
+local dataobj = ldb:NewDataObject("tekability", {
+	type = "data source",
+	icon = "Interface\\Minimap\\Tracking\\Repair",
+	text = "100%",
+})
 
-if AddonLoader and AddonLoader.RemoveInterfaceOptions then AddonLoader:RemoveInterfaceOptions("tekability") end
+if AddonLoader and AddonLoader.RemoveInterfaceOptions then
+	AddonLoader:RemoveInterfaceOptions("tekability")
+end
 local about = LibStub("tekKonfig-AboutPanel").new(nil, "tekability")
 
 
@@ -37,7 +49,8 @@ local fontstrings = setmetatable({}, {
 function frame:OnEvent(event, arg1)
 	if event == "ADDON_LOADED" and arg1:lower() ~= "tekability" then
 		for i,fstr in pairs(fontstrings) do
-			-- Re-apply the font, so that we catch any changes to NumberFontNormal by addons like ClearFont
+			-- Re-apply the font, so that we catch any changes to NumberFontNormal by
+			-- addons like ClearFont
 			local font, _, flags = NumberFontNormal:GetFont()
 			fstr:SetFont(font, FONTSIZE, flags)
 		end
@@ -59,8 +72,9 @@ function frame:OnEvent(event, arg1)
 		end
 	end
 
+	local format = "|cff%02x%02x%02x%d%%"
 	local r,g,b = RYGColorGradient(min)
-	dataobj.text = string.format("|cff%02x%02x%02x%d%%", r*255, g*255, b*255, min*100)
+	dataobj.text = string.format(format, r*255, g*255, b*255, min*100)
 end
 
 
@@ -76,7 +90,8 @@ frame:RegisterEvent("UPDATE_INVENTORY_DURABILITY")
 local function GetTipAnchor(frame)
 	local x,y = frame:GetCenter()
 	if not x or not y then return "TOPLEFT", "BOTTOMLEFT" end
-	local hhalf = (x > UIParent:GetWidth()*2/3) and "RIGHT" or (x < UIParent:GetWidth()/3) and "LEFT" or ""
+	local hhalf = (x > UIParent:GetWidth()*2/3) and "RIGHT" or
+	              (x < UIParent:GetWidth()/3) and "LEFT" or ""
 	local vhalf = (y > UIParent:GetHeight()/2) and "TOP" or "BOTTOM"
 	return vhalf..hhalf, frame, (vhalf == "TOP" and "BOTTOM" or "TOP")..hhalf
 end
@@ -96,7 +111,8 @@ function dataobj.OnEnter(self)
 		local v1, v2 = GetInventoryItemDurability(id)
 
 		if v1 and v2 and v2 ~= 0 then
-			GameTooltip:AddDoubleLine(slot, string.format("%d%%", v1/v2*100), 1, 1, 1, RYGColorGradient(v1/v2))
+			local val = string.format("%d%%", v1/v2*100)
+			GameTooltip:AddDoubleLine(slot, val, 1,1,1, RYGColorGradient(v1/v2))
 		end
 	end
 
