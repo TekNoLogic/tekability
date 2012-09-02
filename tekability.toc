@@ -1,4 +1,4 @@
-## Interface: 30300
+## Interface: 50001
 
 ## Title: tekability
 ## Notes: Simple item durability readout in the character frame.
