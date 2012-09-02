@@ -1,3 +1,7 @@
+5.0.1.7-Beta
+    Fix for 5.0
+    Add support for addonloader interface option dealy
+
 3.3.0.6-Release
     No changes, just tagging as a stable release
 
